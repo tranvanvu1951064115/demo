@@ -1,0 +1,61 @@
+.profile {
+    &__info-main {
+        margin-bottom: 50px;
+        position: relative;
+    }
+    
+    &__infor-left {
+    }
+
+    &__avatar {
+        position: absolute;
+        top: 0;
+        left: 30px;
+        transform: translateY(-50%);
+    }
+
+    &__edit {
+        display: flex;
+        align-items:center;
+        justify-content: flex-end;
+        margin-bottom: 50px;
+        a {
+            margin-top: 20px;
+            min-width: unset;
+            border:1px solid $primary-color;
+        }
+    }
+
+    &__name {
+        margin-left: 30px;
+        margin-bottom: 30px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        > span {
+            color: #73808b;
+        }
+    }
+
+    &__fullname {
+        font-size: 30px;
+    }
+
+    &__follow {
+        margin-left: 30px;
+    }
+
+    &__following {}
+
+    &__follower {}
+
+    &__tweet {
+        margin-left: -12px;
+        margin-right: -12px;
+        > h6 {
+            font-size: 20px;
+            margin-bottom: 20px!important;
+            border-bottom: 1px solid #f1f1f1;
+        }
+    }
+}
