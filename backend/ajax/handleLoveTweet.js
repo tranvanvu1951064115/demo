@@ -1,5 +1,7 @@
 function handleLoveTweet(event, tweet, user) {
     // TĂNG SỐ LƯỢNG LOVE UI
+    event.preventDefault();
+    event.stopPropagation();
     const loveBtn = event.target;
     if(loveBtn.classList.contains('content__tweet-love')) {
         $.ajax({

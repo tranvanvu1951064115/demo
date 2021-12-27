@@ -20,10 +20,12 @@ if (isset($isHomepage)) {
     echo "<script src='./frontend/assets/js/leftSideBar/popUpUserLogout.js' type='module' defer></script>";
     echo "<script src='./frontend/assets/js/home/app.js' type='module' defer></script>";
     echo "<script src='./frontend/assets/js/home/handleReply.js' defer></script>";
+    echo "<script src='./frontend/assets/js/home/navProfile.js' defer></script>";
     echo "<script src='./backend/ajax/handleTweet.js' type='module' defer></script>";
     echo "<script src='./backend/ajax/handleDelTweet.js' defer></script>";
     echo "<script src='./backend/ajax/handleLoveTweet.js' defer></script>";
     echo "<script src='./backend/ajax/handleComment.js' defer></script>";
+    echo "<script src='./backend/ajax/handleDisplayTweet.js' defer></script>";
 }
 
 $user = userData($_SESSION['isLogginOK']);
@@ -40,7 +42,7 @@ $user = userData($_SESSION['isLogginOK']);
                 <!-- CONTENT SECTION -->
                 <div class="content col-md-7">
                     <div class="content__header">
-                        <h2 class="mb-0">Home</h2>
+                        <h2 class="mb-0 text-primary">Home</h2>
                         <a href="$" class="content__topTweet">
                             <svg width="20px" height="20px" viewBox="0 0 24 24" aria-hidden="true" class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03">
                                 <g>

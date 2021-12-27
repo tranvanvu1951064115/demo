@@ -9,20 +9,13 @@ function handleComment(event, userReply, forTweet) {
             data: {
                 userReply,
                 forTweet,
-                statusComment: $('#contentReplyText').val()
+                statusComment: buttonComment.parentElement.querySelector('textarea.content__tweet-input').value
             },
-            success(amountCommentForTweet) { 
-                const replyButton = document.querySelector(`.content__tweet[data-id="${forTweet}"] .content__tweet-reply`);
-                if(amountCommentForTweet > 0) {
-                    replyButton.setAttribute('data-comments', amountCommentForTweet);
-                } else {
-                    replyButton.setAttribute('data-comments', '');
-                }
-                document.querySelector(`.content__tweet[data-id="${forTweet}"] .content__tweet-input`).value = '';
+            success() { 
+                location.reload();
             }                  
         });
     }   
-
 
     // Ẩn box
     document.querySelector(`.content__tweet-reply-content[data-tweet="${forTweet}"]`).style.display = 'none';

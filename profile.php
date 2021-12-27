@@ -24,10 +24,12 @@ if (isset($isHomepage)) {
     echo "<script src='./backend/ajax/handleDelTweet.js' defer></script>";
     echo "<script src='./backend/ajax/handleLoveTweet.js' defer></script>";
     echo "<script src='./backend/ajax/handleComment.js' defer></script>";
+    echo "<script src='./backend/ajax/handleDisplayTweet.js' defer></script>";
 }
-
-$user = userData($_GET['userProfile']);
-
+ 
+$user = userData($_SESSION['isLogginOK']); //NGƯỜI DÙNG ĐANG ĐĂNG NHẬP
+$userProfile = userData($_GET['userProfile']); // NGƯỜI ĐƯỢC XEM PROFILE
+ 
 ?>
 <div class="wrapper">
     <div class='overlay'></div>
@@ -40,11 +42,11 @@ $user = userData($_GET['userProfile']);
                 <!-- CONTENT SECTION -->
                 <div class="content col-md-7">
                     <div class="content__header">
-                        <h2 class="mb-0">
+                        <h2 class="mb-0 text-primary">
                             <a href="<?php echo url_for('home');?>">
                                 <i class="fas fa-arrow-left d-inline-block me-3"></i>
                             </a>
-                            Profile | <?php echo "<span class='text-primary'>$user->user_firstName $user->user_lastName</span>"?>
+                            Profile | <?php echo "<span>$userProfile->user_firstName $userProfile->user_lastName</span>"?>
                         </h2>
                         <a href="$" class="content__topTweet">
                             <svg width="20px" height="20px" viewBox="0 0 24 24" aria-hidden="true" class="r-18jsvk2 r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03">
@@ -58,18 +60,18 @@ $user = userData($_GET['userProfile']);
                     <div class="profile">
                         <div class="profile__info">
                             <div class="profile__background">
-                                <img src="<?php echo url_for($user->user_profileCover) ?>" width="100%" height="200px" alt="">
+                                <img src="<?php echo url_for($userProfile->user_profileCover) ?>" width="100%" height="200px" alt="">
                             </div>
                             <div class="profile__info-main">
                                 <div class="profile__avatar">
-                                    <img class="rounded-circle" src="<?php echo url_for($user->user_profileImage) ?>" alt="avartar" width="150px" height="150px">
+                                    <img class="rounded-circle" src="<?php echo url_for($userProfile->user_profileImage) ?>" alt="avartar" width="150px" height="150px">
                                 </div>
                                 <div class="profile__edit">
                                     <a class="btn btn--secondary" href="<?php echo url_for('editprofile');?>">Edit profile</a>
                                 </div>
                                 <div class="profile__name">
-                                    <b class="profile__fullname"><?php echo $user->user_firstName. ' ' . $user->user_lastName ?></b>
-                                    <span>@<?php echo $user->user_userName ?></span>
+                                    <b class="profile__fullname"><?php echo $userProfile->user_firstName. ' ' . $userProfile->user_lastName ?></b>
+                                    <span>@<?php echo $userProfile->user_userName ?></span>
                                 </div>
                                 <div class="profile__follow">
                                     <a href="" class="profile__following me-5">

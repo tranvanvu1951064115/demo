@@ -42,7 +42,7 @@ if (count($tweets) > 0) {
         $deleteFuntion = false;
         $isYourComment = $userOfTweet->user_userName; // LÀ NGƯỜI DÙNG KHÁC
         if($row['tweet_by'] == $user->user_id) {
-            $deleteFuntion = "<a class='content__tweet-delete' onclick = 'handleDelTweet({$row['tweet_id']});'>
+            $deleteFuntion = "<a class='content__tweet-delete' onclick = 'handleDelTweet(event,{$row['tweet_id']});'>
                                 <i class='far fa-trash-alt'></i>
                                 Delete
                               </a>";
@@ -52,14 +52,13 @@ if (count($tweets) > 0) {
         // LINK PROFILE
         $linkProfile = url_for("profile?userProfile=$userOfTweet->user_id");
 
-
         // TRẢ VỀ DỮ LIỆU CỦA NGƯỜI DÙNG
-        echo "<li class='content__tweet' data-id='{$row['tweet_id']}'>
+        echo "<li class='content__tweet' data-id='{$row['tweet_id']}' onclick='handleDisplayTweet(event, {$row['tweet_id']});'>
                 <img width='48px' height='48px' src='$userOfTweet->user_profileImage' alt='' class='content__tweet-user-avatar'>
                 <div class='content__tweet-content'>
                     <div class='content__tweet-user-info'>
                         <div class='content__tweet-user-name'>
-                            <a href='$linkProfile' class='content__tweetby'>$userOfTweet->user_firstName $userOfTweet->user_lastName</a>
+                            <a href='$linkProfile' class='content__tweetby' onclick='navProfile($userOfTweet->user_id);'>$userOfTweet->user_firstName $userOfTweet->user_lastName</a>
                             <span>@$userOfTweet->user_userName</span>
                             <span class='time-post-tweet'>{$row['tweet_postedOn']}</span>
                         </div>
