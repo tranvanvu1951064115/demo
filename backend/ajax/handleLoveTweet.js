@@ -19,8 +19,25 @@ function handleLoveTweet(event, tweet, user) {
                     loveBtn.setAttribute('data-loves', '');
                     loveBtn.classList.remove('active');
                 }
+                insertNotification(user, tweet, "love")
             }                    
         });
     }
 
+}
+
+function insertNotification(user, tweet, type) {
+    // 2. GỬI ĐỂ XỬ LÝ 
+    $.ajax({
+        url: 'backend/functions/process/sendNotification.php',
+        type: 'POST',
+        data: {
+            userReply: user,
+            forTweet: tweet,
+            type,
+        },
+        success(data) {
+            console.log(data);
+        }                  
+    });
 }

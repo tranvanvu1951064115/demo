@@ -12,6 +12,7 @@
             insert('tb_comment', ['comment_by' => $_POST['userReply'], 'comment_on' => $_POST['forTweet'], 'comment_status'=>$_POST['statusComment']]);
             // LẤY RA SỐ LƯỢNG COMMENT CỦA TWEET TƯƠNG ỨNG
             $tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_POST['forTweet']], null, null);
+            echo count($tweetComments);
         }
     }
 ?>

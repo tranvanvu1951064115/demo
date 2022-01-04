@@ -4,7 +4,7 @@
         foreach ($tweetComments as $row) {
             // 1. CHO PHÉP NGƯỜI DÙNG XÓA TWEET HAY KHÔNG
             //    CÓ KHI VÀ CHỈ KHI NGƯỜI DÙNG LÀ NGƯỜI ĐÃ TẠO RA TWEET
-            // 2. XỬ LÝ HIỆN RA 'YOU' NẾU NHƯ NGƯỜI DÙNG ĐANG TỰ COMMENT CHÍNH TWEET
+            // 2. XỬ LÝ HIỆN RA 'YOU' NẾU NHƯ NGƯỜI DÙNG ĐANG TỰ COMMENT CHÍNH MÌNH
             $deleteFuntion = false;
             if($row['comment_by'] == $user->user_id) {
                 $deleteFuntion = "<a class='content__tweet-delete' onclick = 'handleDelComment(event,{$row['comment_id']});'>
@@ -15,9 +15,11 @@
             // LẤY DỮ LIỆU NGƯỜI ĐÃ COMMENT 
             $userComment = userData($row['comment_by']);        
             $linkProfile = url_for("profile?userProfile=$userComment->user_id");    
+            // LẤY LINK ẢNH NGƯỜI DÙNG
+            $imageAvatar = getLinkImage($userComment)['imageAvatar'];
 
             $listComment .= "<li class='content__tweet-comments-item content__tweet' data-id='{$row['comment_id']}'>
-                        <img width='40px' height='40px' src='$userComment->user_profileImage' alt='' class='content__tweet-user-avatar'>
+                        <img width='40px' height='40px' src='$imageAvatar' alt='' class='content__tweet-user-avatar'>
                         <div class='content__tweet-content'>
                             <div class='content__tweet-user-info'>
                                 <div class='content__tweet-user-name'>

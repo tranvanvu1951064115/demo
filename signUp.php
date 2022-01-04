@@ -7,6 +7,7 @@
     include 'backend/initialize.php';
     // XỬ LÝ ĐĂNG KÍ TÀI KHOẢN ĐĂNG NHẬP CHO NGƯỜI DÙNG
     include 'backend/functions/process/processSignUp.php';
+    echo "<script src='./frontend/assets/js/signUp/handleRemember.js' defer></script>";
 ?>
     <section class="sign form">
         <!-- FORM-NAV SECTION -->
@@ -18,7 +19,7 @@
                 <!-- SERVER['PHP_SELF'] là thư mục hiện tại đang đứng
                      htmlspecialchars loại bỏ những kí tự đặc biệt để tránh hacker dùng script để tấn công
                 -->
-                <form action="<?php echo removeSpecialCharacters($_SERVER['PHP_SELF']);?>" method="POST" class="form-main">
+                <form action="<?php echo removeSpecialCharacters($_SERVER['PHP_SELF']);?>" method="POST" class="form-main form-signup-main">
                     <div class="form-group">
                         <label for="firstName">FirstName</label>
                         <!-- AutoComplete là chức năng của Internet Explorer cho phép ghi nhớ các ký tự hay password vào biểu mẫu (form) trên trang web và tự động điền lại vào những lần sau. -->

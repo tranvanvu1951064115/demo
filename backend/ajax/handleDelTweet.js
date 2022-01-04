@@ -8,11 +8,13 @@ function handleDelTweet(event, tweetId) {
             tweetId: tweetId,
         },
         success: function(tweetId) {
-            const tweet = $(`.content__tweet[data-id=${tweetId}]`);
-            tweet.attr('style',  'display: none');
-            if(location.href.indexOf('tweetWithComments')) {
+            const currentLink = location.href;
+            if(currentLink.indexOf('tweetWithComments') > 0) {
                 location.href = 'http://localhost/twitter/home';
             }
+            const tweet = $(`.content__tweet[data-id=${tweetId}]`);
+            tweet.attr('style',  'display: none');
+            tweet.parent().attr('style',  'margin: unset');
         }                    
     });
 }

@@ -31,8 +31,9 @@
     
     // Hàm kiểm tra username có tồn tại trong csdl
     function checkUsernameExist($username) {
+        global $conn;
         // Thực hiện gọi hàm prepare để thực thi câu lệnh
-        $statement = $GLOBALS['pdo']->prepare("SELECT user_userName FROM tb_users WHERE user_userName=:username");
+        $statement = $conn->prepare("SELECT user_userName FROM tb_users WHERE user_userName=:username");
         // Thực hiện truyền tham chiếu username = biến username
         $statement->bindParam(":username", $username, PDO::PARAM_STR);
         // Thực thi câu lệnh sql trên database
@@ -46,8 +47,9 @@
     }
 
     function checkEmailInUse($email) {
+        global $conn;
         // Bước 1: Kiểm tra sự tồn tại của email trong database
-        $statement = $GLOBALS['pdo']->prepare("SELECT user_email FROM tb_users WHERE user_email=:email");
+        $statement = $conn->prepare("SELECT user_email FROM tb_users WHERE user_email=:email");
         $statement->bindParam(":email", $email, PDO::PARAM_STR);
         $statement->execute();
         if($statement->rowCount() > 0) {
@@ -57,6 +59,7 @@
 
     // Thực hiện chèn người dùng vào cơ sở dữ liệu
     function insertUser($firstName, $lastName, $userName, $email, $password) {
+        global $conn;
         // Thực hiện băm password theo định dạng BCRYPT
         $password_hashed = password_hash($password, PASSWORD_BCRYPT);
 
@@ -74,7 +77,7 @@
         }
 
         // Chuẩn bị câu lệnh và thực thi insert người dùng lên csdl
-        $statement = $GLOBALS['pdo']->prepare("INSERT INTO tb_users(user_firstName, user_lastName, user_userName, user_email, user_password, user_profileImage, user_profileCover) VALUES(:fn, :ln, :un, :em, :pw, :pi, :pc)");
+        $statement = $conn->prepare("INSERT INTO tb_users(user_firstName, user_lastName, user_userName, user_email, user_password, user_profileImage, user_profileCover) VALUES(:fn, :ln, :un, :em, :pw, :pi, :pc)");
         $statement->bindParam(":fn",$firstName, PDO::PARAM_STR);
         $statement->bindParam(":ln",$lastName, PDO::PARAM_STR);
         $statement->bindParam(":un",$userName, PDO::PARAM_STR);
@@ -84,6 +87,6 @@
         $statement->bindParam(":pc",$profileCover, PDO::PARAM_STR);
         $statement->execute();
         // Lấy id cuối cùng được chèn để return ra kết quả, tương tự như việc thành công chèn bản ghi mới vào trong cơ sở dữ liệu
-        return $GLOBALS['pdo']->lastInsertId();
+        return $conn->lastInsertId();
     }
 ?>

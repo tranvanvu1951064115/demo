@@ -1,4 +1,5 @@
 body {
+    overflow-x: hidden;
     &.over-hidden {
         overflow: hidden;
     }
@@ -45,6 +46,12 @@ body {
 
 .text-primary, a:hover {
     color: $primary-color!important;
+    fill: $primary-color!important;
+}
+
+.text-danger {
+    color: red!important;
+    fill: red!important;
 }
 
 

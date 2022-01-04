@@ -4,7 +4,7 @@
         $listComment = '';
         try {
             $comment_id = $_POST['commentId'];
-            $statement = $GLOBALS["pdo"]->prepare("DELETE FROM tb_comment WHERE comment_id=:comment_id");
+            $statement = $conn->prepare("DELETE FROM tb_comment WHERE comment_id=:comment_id");
             $statement->bindParam(":comment_id", $comment_id, PDO::PARAM_INT);
             $statement->execute();
 

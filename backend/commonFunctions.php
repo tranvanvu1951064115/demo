@@ -33,4 +33,21 @@
     function resetSESSIONFor($name) {
         unset($_SESSION[$name]);
     }
+
+    function getLinkImage($owner) {
+        $posCover = strpos($owner->user_profileCover, 'frontend/assets/image/');
+        if($posCover !== false) {
+            $imageCover = $owner->user_profileCover;
+        } else {
+            $imageCover = "backend/uploads/$owner->user_id/$owner->user_profileCover";
+        }
+        
+        $posImage = strpos($owner->user_profileImage, 'frontend/assets/image/');
+        if($posImage !== false) {
+            $imageAvatar = $owner->user_profileImage;
+        } else {
+            $imageAvatar = "backend/uploads/$owner->user_id/$owner->user_profileImage";
+        }
+        return ['imageCover'=>$imageCover, 'imageAvatar'=>$imageAvatar];
+    }
 ?>

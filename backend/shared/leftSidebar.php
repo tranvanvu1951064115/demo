@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li class="l-sidebar__item">
-                <a href="<?php echo url_for("index") ?>" class="l-sidebar__link">
+                <a href="<?php echo url_for("explore") ?>" class="l-sidebar__link">
                     <div class="l-sidebar__icon">
                         <svg width="26px" height="26px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g>
@@ -43,8 +43,8 @@
                     Explore
                 </a>
             </li>
-            <li class="l-sidebar__item">
-                <a href="<?php echo url_for("index") ?>" class="l-sidebar__link">
+            <li class="l-sidebar__item l-sidebar__item--notification">
+                <a href="<?php echo url_for("notification") ?>" class="l-sidebar__link">
                     <div class="l-sidebar__icon">
                         <svg width="26px" height="26px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g>
@@ -59,9 +59,12 @@
                     </div>
                     Notification
                 </a>
+                <span class="l-sidebar__item--notification-spec <?php if(isset($activeNotif) && !isset($isPageNotice)) echo $activeNotif ?>">
+                    <i class="fas fa-circle"></i>
+                </span>
             </li>
             <li class="l-sidebar__item">
-                <a href="<?php echo url_for("index") ?>" class="l-sidebar__link">
+                <a href="<?php echo url_for("message") ?>" class="l-sidebar__link">
                     <div class="l-sidebar__icon">
                         <svg width="26px" height="26px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g>
@@ -100,7 +103,7 @@
 
     <div class="user mt-auto">
         <div class="user-avatar">
-            <img width="40px" height="40px" src="<?php echo $user->user_profileImage ?>" alt="<?php echo $user->user_userName ?>">
+            <img width="40px" height="40px" src="<?php echo $imageAvatarOfUserLogined; ?>" alt="<?php echo $user->user_userName ?>">
         </div>
         <div class="user-info">
             <div class="user-main">
@@ -116,7 +119,7 @@
         <form class="user-logout-main" action="<?php echo url_for('index'); ?>" method="post">
             <div class="user-logout-content">
                 <div class="user-avatar">
-                    <img width="40px" height="40px" src="<?php echo $user->user_profileImage ?>" alt="<?php echo $user->user_userName ?>">
+                    <img width="40px" height="40px" src="<?php echo $imageAvatarOfUserLogined; ?>" alt="<?php echo $user->user_userName ?>">
                 </div>
                 <div class="user-logout-desc">
                     <div class="user-logout-info">

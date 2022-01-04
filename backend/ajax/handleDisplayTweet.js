@@ -5,6 +5,6 @@ function handleDisplayTweet(event, tweetId) {
     const box = event.target;
     const mustnotTargets = ['content__tweetby', 'content__tweetby fs-5', 'content__tweet-detail'];
     if(!mustnotTargets.includes(box.classList.value)) {
-        location.href = `http://localhost/twitter/tweetWithComments.php?tweetId=${tweetId}`;
+        location.href = `http://localhost/twitter/tweetWithComments?tweetId=${tweetId}`;
     }
 }

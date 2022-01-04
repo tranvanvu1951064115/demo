@@ -55,6 +55,23 @@
                 fill: $primary-color;
             }
         }
+
+        &--notification {
+            position: relative;
+            &-spec {
+                display: none;
+                font-size: 8px;
+                position: absolute;
+                top: 8px;
+                left: 10px;
+                i {
+                    color: $primary-color;
+                }
+                &.active {
+                    display: inline-block;
+                }
+            }
+        }
     }
 
     &__item.active {

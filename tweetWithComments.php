@@ -13,21 +13,37 @@ if (!isset($_SESSION['isLogginOK']) || !($_SESSION['isLogginOK'] > 0)) {
     redirect_to(url_for('index'));
 }
 
+$user = userData($_SESSION['isLogginOK']); // USER ĐANG LOGGIN
+$tweet = getInfo('tb_tweets', ['*'], ['tweet_id'=>$_GET['tweetId']], null, null)['0'];
+$userOfTweet = userData($tweet['tweet_by']); // CHỦ TWEET
+$tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], null, null);
+
 echo "<script src='./frontend/assets/js/leftSideBar/active.js' type='module' defer></script>";
 echo "<script src='./frontend/assets/js/leftSideBar/popUpUserLogout.js' type='module' defer></script>";
 echo "<script src='./frontend/assets/js/home/app.js' type='module' defer></script>";
 echo "<script src='./frontend/assets/js/home/handleReply.js' defer></script>";
-echo "<script src='./backend/ajax/handleTweet.js' type='module' defer></script>";
+// echo "<script src='./backend/ajax/handleTweet.js' type='module' defer></script>";
 echo "<script src='./backend/ajax/handleDelTweet.js' defer></script>";
 echo "<script src='./backend/ajax/handleLoveTweet.js' defer></script>";
 echo "<script src='./backend/ajax/handleComment.js' defer></script>";
 echo "<script src='./backend/ajax/handleDisplayTweet.js' defer></script>"; 
 echo "<script src='./backend/ajax/handleDelComment.js' defer></script>"; 
+echo "<script src='./backend/ajax/handleFollow.js' defer></script>";
 
-$user = userData($_SESSION['isLogginOK']); // USER ĐANG LOGGIN
-$tweet = getInfo('tb_tweets', ['*'], ['tweet_id'=>$_GET['tweetId']], null, null)['0'];
-$userOfTweet = userData($tweet['tweet_by']); // CHỦ TWEET
-$tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], null, null);
+// LẤY DỮ LIỆU ẢNH NGƯỜI ĐANG LOGIN
+$imageAvatarOfUserLogined = getLinkImage($user)['imageAvatar'];
+$imageCoverOfUserLogined = getLinkImage($user)['imageCover'];
+
+// LẤY DỮ LIỆU ẢNH CỦA CHỦ TWEET
+$imageForOwnTweet = getLinkImage($userOfTweet)['imageAvatar'];
+
+// THÔNG BÁO CỦA NGƯỜI DÙNG
+$notifications = getInfo('tb_notifications', ['*'], ['notification_for' => $user->user_id, 'notification_state' => 1], null, null);
+if(count($notifications) > 0) {
+    $activeNotif = 'active';
+} else {
+    $activeNotif = 'none';
+}
 
 ?>
 <div class="wrapper">
@@ -85,10 +101,22 @@ $tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], 
 
                             // LINK PROFILE
                             $linkProfile = url_for("profile?userProfile=$userOfTweet->user_id");
+
+                            // LẤY DỮ LIỆU ẢNH CHỦ TWEET
+                            $avatarOwnTweet = getLinkImage($userOfTweet)['imageAvatar'];
+
+                            // LẤY ẢNH CỦA NGƯỜI DÙNG ĐÃ ĐĂNG TẢI
+                            $imagesOfTweet = getInfo('tb_uploadedimages', ['uploadedImage_link'], ['uploadedImage_forTweet'=>$tweet['tweet_id']], null, null);
+                            $imageForDisplay = '';
+                            if(count($imagesOfTweet) > 0) {
+                                foreach($imagesOfTweet as $image) {
+                                    $imageForDisplay .= "<div class='container-post-image'><img src='backend/uploads/$userOfTweet->user_id/tweet-{$tweet['tweet_id']}-{$image['uploadedImage_link']}' alt=''></div>";
+                                }
+                            }
                                 echo "<div class='content__tweet-main'>
                                         <li class='content__tweet' data-id='{$tweet['tweet_id']}' onclick='handleDisplayTweet(event, {$tweet['tweet_id']});'>
                                             <div class='content__tweet-reply-user-avatar content__tweet-reply-user-avatar-forcomment'>
-                                                <img width='48px' height='48px' src='$userOfTweet->user_profileImage' alt='' class='content__tweet-user-avatar'>
+                                                <img width='48px' height='48px' src='$avatarOwnTweet' alt='' class='content__tweet-user-avatar'>
                                             </div>
                                             <div class='content__tweet-content'>
                                                 <div class='content__tweet-user-info'>
@@ -101,6 +129,7 @@ $tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], 
                                                         <p class='fs-6'>{$tweet['tweet_status']}</p>
                                                     </div>
                                                 </div>
+                                                <div class='content__new-tweet-box-image content__new-tweet-box-image--uploaded mt-3 d-flex mb-3'>$imageForDisplay</div>
                                                 <div class='content__tweet-react'>
                                                     <div class='content__tweet-reply' onclick='openReply(event);' data-comments='$amountComment'>
                                                         <svg width='30px' height='30px' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
@@ -115,7 +144,7 @@ $tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], 
                                                             </span>
                                                             <div class='content__tweet-reply-user d-flex'>
                                                                 <div class='content__tweet-reply-user-avatar'>
-                                                                    <img width='40px' height='40px' src='$userOfTweet->user_profileImage' alt='' class='content__tweet-user-avatar'>
+                                                                    <img width='40px' height='40px' src='$imageForOwnTweet' alt='' class='content__tweet-user-avatar'>
                                                                 </div>
                                                                 <div class='content__tweet-user-info'>
                                                                     <div class='content__tweet-user-name'>
@@ -133,7 +162,7 @@ $tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], 
                                                                 <form id='postTweetForm' action='' method='post' class='content__post-form'>
                                                                     <div class='content__new-tweet'>
                                                                         <div class='content__new-tweet-input'>
-                                                                            <img width='40px' height='40px' src='$user->user_profileImage'
+                                                                            <img width='40px' height='40px' src='$imageAvatarOfUserLogined'
                                                                                 alt=''>
                                                                             <textarea class='content__tweet-input' name='contentText' maxlength='200'
                                                                                 value='contentText' placeholder='Tweet your reply...'></textarea>
@@ -178,7 +207,7 @@ $tweetComments = getInfo('tb_comment', ['*'], ['comment_on'=>$_GET['tweetId']], 
                         ?>
                         <div class="content__tweet-comments">
                             <!-- DISPLAY COMMENTS -->
-                            <ul class="content__tweet-comments-menu">
+                            <ul class="content__tweet-comments-menu ms-5">
                                 <?php include 'backend/shared/dataComments.php'; ?>
                             </ul>
                         </div>
