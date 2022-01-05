@@ -51,6 +51,18 @@ if(count($notifications) > 0) {
 // RESET SESSION
 unset($_SESSION['isExplore']);
 
+// LẤY THÔNG TIN FOLLOWER/ING CỦA NGƯỜI DÙNG
+$sql = "SELECT COUNT(*) as amount FROM tb_follows WHERE follow_user = $userProfile->user_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$amountOfFollowing = $stmt->fetch(PDO::FETCH_OBJ)->amount;
+
+$sql = "SELECT COUNT(*) as amount FROM tb_follows WHERE follow_following = $userProfile->user_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$amountOfFollower = $stmt->fetch(PDO::FETCH_OBJ)->amount;
+echo $amountOfFollowing;
+
 echo "<script src='./frontend/assets/js/leftSideBar/active.js' type='module' defer></script>";
 echo "<script src='./frontend/assets/js/leftSideBar/popUpUserLogout.js' type='module' defer></script>";
 echo "<script src='./frontend/assets/js/home/app.js' type='module' defer></script>";
@@ -108,10 +120,10 @@ echo "<script src='./backend/ajax/handleFollow.js' defer></script>";
                                 </div>
                                 <div class="profile__follow">
                                     <a href="" class="profile__following me-5">
-                                        <b class="me-2">3</b>Flowings
+                                        <b class="me-2"><?php echo $amountOfFollowing ?></b>Flowings
                                     </a>
                                     <a href="" class="profile__follower">
-                                        <b class="me-2">1</b>Follower
+                                        <b class="me-2"><?php echo $amountOfFollower ?></b>Follower
                                     </a>
                                 </div>
                             </div>

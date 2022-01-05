@@ -31,6 +31,7 @@
     <?php 
         echo '<link rel="stylesheet"' . 'type="text/css"' . 'href="frontend/assets/css/app.css">';
         echo  "<script src='frontend/assets/js/allowNotification.js' type='text/javascript' defer></script>";
+        echo  "<script src='frontend/assets/js/preventF12.js' type='text/javascript' defer></script>";
     ?>
 </head>
 
